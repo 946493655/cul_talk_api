@@ -1,7 +1,7 @@
 vendor/
 .idea/
-#bootstrap/compiled.php
-#app/storage/
-#bootstrap/cache/
-#.env.*
-#.env
+bootstrap/compiled.php
+app/storage/
+bootstrap/cache/
+.env.*
+.env
