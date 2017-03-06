@@ -30,11 +30,13 @@ class TalkController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = TalksModel::where('uname','like','%'.$uname.'%')->count();
         } else {
             $models = TalksModel::orderBy('id','desc')
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = TalksModel::count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -60,7 +62,9 @@ class TalkController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
-            'model' =>  [],
+            'pagelist' =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

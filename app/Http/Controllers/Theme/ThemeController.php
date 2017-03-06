@@ -28,12 +28,14 @@ class ThemeController extends BaseController
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
                 ->get();
+            $total = ThemeModel::where('uname','%'.$uname.'%')->count();
         } else {
             $models = ThemeModel::skip($start)
                 ->take($limit)
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
                 ->get();
+            $total = ThemeModel::count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -57,7 +59,9 @@ class ThemeController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
-            'model' =>  [],
+            'pagelist' =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
