@@ -9,7 +9,7 @@ class TalksModel extends BaseModel
     /**
      * 话题
      */
-    protected $table = 'bs_talks';
+    protected $table = 'talks';
     protected $fillable = [
         'id','name','themeid','intro','uid','uname','read','pid','sort','del','created_at','updated_at',
     ];

@@ -5,7 +5,7 @@ use App\Models\BaseModel;
 
 class CollectModel extends BaseModel
 {
-    protected $table = 'bs_talks_collect';
+    protected $table = 'talks_collect';
     protected $fillable = [
         'id','talkid','uid','created_at',
     ];

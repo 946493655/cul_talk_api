@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers\Theme;
+namespace App\Http\Controllers;
 
 use App\Models\ThemeModel;
 
 class ThemeController extends BaseController
 {
     /**
-     * 专栏管理控制器
+     * 主题
      */
 
     public function __construct()

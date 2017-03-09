@@ -35,13 +35,15 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], fu
 
 
 //专栏管理
-$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Theme'], function () use ($app) {
-    //专栏管理
-    $app->post('theme', 'ThemeController@index');
-    $app->post('theme/add', 'ThemeController@store');
-    $app->post('theme/modify', 'ThemeController@update');
-    $app->post('theme/show', 'ThemeController@show');
-    $app->post('theme/isdel', 'ThemeController@setDel');
-    $app->post('theme/delete', 'ThemeController@forceDelete');
-    $app->post('theme/all', 'ThemeController@all');
+$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
+    //专栏路由
+    $app->post('topic', 'TopicController@index');
+    //主题管理
+//    $app->post('theme', 'ThemeController@index');
+//    $app->post('theme/add', 'ThemeController@store');
+//    $app->post('theme/modify', 'ThemeController@update');
+//    $app->post('theme/show', 'ThemeController@show');
+//    $app->post('theme/isdel', 'ThemeController@setDel');
+//    $app->post('theme/delete', 'ThemeController@forceDelete');
+//    $app->post('theme/all', 'ThemeController@all');
 });
