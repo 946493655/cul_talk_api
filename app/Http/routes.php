@@ -16,6 +16,24 @@ $app->get('/', function () use ($app) {
 });
 
 
+/***
+ * 专栏
+ */
+$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
+    //专栏路由
+    $app->post('topic', 'TopicController@index');
+    $app->post('topic/add', 'TopicController@store');
+    $app->post('topic/modify', 'TopicController@update');
+    $app->post('topic/show', 'TopicController@show');
+    //类别路由
+    $app->post('category', 'CateController@index');
+    $app->post('cate/add', 'CateController@store');
+    $app->post('cate/modify', 'CateController@update');
+    $app->post('cate/show', 'CateController@show');
+    $app->post('cate/catesbypid', 'CateController@getCatesByPid');
+});
+
+
 //话题管理
 $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], function () use ($app) {
     //话题管理
@@ -31,19 +49,4 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], fu
     $app->post('talkcollect', 'TalkCollectController@getListByUid');
     //关注
     $app->post('talkfollow', 'TalkFollowController@getListByUid');
-});
-
-
-//专栏管理
-$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
-    //专栏路由
-    $app->post('topic', 'TopicController@index');
-    //主题管理
-//    $app->post('theme', 'ThemeController@index');
-//    $app->post('theme/add', 'ThemeController@store');
-//    $app->post('theme/modify', 'ThemeController@update');
-//    $app->post('theme/show', 'ThemeController@show');
-//    $app->post('theme/isdel', 'ThemeController@setDel');
-//    $app->post('theme/delete', 'ThemeController@forceDelete');
-//    $app->post('theme/all', 'ThemeController@all');
 });

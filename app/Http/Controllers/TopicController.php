@@ -30,8 +30,8 @@ class TopicController extends BaseController
             echo json_encode($rstArr);exit;
         }
         $datas = array();
-        foreach ($models as $model) {
-            $datas = $this->getTopicModel($model);
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getTopicModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -41,6 +41,106 @@ class TopicController extends BaseController
             'data'  =>  $datas,
             'pagelist'  =>  [
                 'total' =>  $total,
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = TopicModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->getTopicModel($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $intro = $_POST['intro'];
+        if (!$name) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'intro' =>  $intro,
+            'created_at'    =>  time(),
+        ];
+        TopicModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $intro = $_POST['intro'];
+        if (!$id || !$name) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = TopicModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'intro' =>  $intro,
+            'updated_at'    =>  time(),
+        ];
+        TopicModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
             ],
         ];
         echo json_encode($rstArr);exit;

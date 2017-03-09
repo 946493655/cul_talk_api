@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\ThemeModel;
+use App\Models\CateModel;
 
-class ThemeController extends BaseController
+class CateController extends BaseController
 {
     /**
      * 主题
@@ -11,32 +11,21 @@ class ThemeController extends BaseController
 
     public function __construct()
     {
-        $this->selfModel = new ThemeModel();
+        $this->selfModel = new CateModel();
     }
 
     public function index()
     {
-        $uname = (isset($_POST['uname'])&&$_POST['uname'])?$_POST['uname']:'';
+        echo json_encode([]);exit;
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
-        if ($uname) {
-            $models = ThemeModel::where('uname','%'.$uname.'%')
-                ->skip($start)
-                ->take($limit)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->get();
-            $total = ThemeModel::where('uname','%'.$uname.'%')->count();
-        } else {
-            $models = ThemeModel::skip($start)
-                ->take($limit)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->get();
-            $total = ThemeModel::count();
-        }
+        $models = CateModel::skip($start)
+            ->take($limit)
+            ->orderBy('id','desc')
+            ->get();
+        $total = CateModel::count();
         if (!count($models)) {
             $rstArr = [
                 'error' => [
@@ -49,9 +38,7 @@ class ThemeController extends BaseController
         //整理数据
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k] = $this->getCateModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -69,14 +56,10 @@ class ThemeController extends BaseController
     /**
      * 获取所有专栏
      */
-    public function all()
+    public function getCatesByPid()
     {
-        $uid = $_POST['uid'];
-        if ($uid) {
-            $models = ThemeModel::where('uid',$uid)->get();
-        } else {
-            $models = ThemeModel::all();
-        }
+        $pid = $_POST['pid'];
+        $models = CateModel::where('pid',$pid)->get();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -89,10 +72,7 @@ class ThemeController extends BaseController
         //整理数据
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['delName'] = $model->getDel();
+            $datas[$k] = $this->getCateModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -100,7 +80,6 @@ class ThemeController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
-            'model' =>  [],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -112,9 +91,8 @@ class ThemeController extends BaseController
     {
         $name = $_POST['name'];
         $intro = $_POST['intro'];
-        $uid = $_POST['uid'];
-        $uname = $_POST['uname'];
-        if (!$name || !$intro || (!$uid && !$uname)) {
+        $pid = $_POST['pid'];
+        if (!$name) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -123,23 +101,13 @@ class ThemeController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        if (ThemeModel::where('name',$name)->first()) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '有同名专栏！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
         $data = [
             'name'  =>  $name,
             'intro' =>  $intro,
-            'uid'   =>  $uid,
-            'uname' =>  $uname,
+            'pid'   =>  $pid,
             'created_at'    =>  time(),
         ];
-        ThemeModel::create($data);
+        CateModel::create($data);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -157,9 +125,8 @@ class ThemeController extends BaseController
         $id = $_POST['id'];
         $name = $_POST['name'];
         $intro = $_POST['intro'];
-        $uid = $_POST['uid'];
-        $uname = $_POST['uname'];
-        if (!$id || !$name || !$intro || (!$uid && !$uname)) {
+        $pid = $_POST['pid'];
+        if (!$id || !$name) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -168,7 +135,7 @@ class ThemeController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $model = ThemeModel::find($id);
+        $model = CateModel::find($id);
         if (!$model) {
             $rstArr = [
                 'error' =>  [
@@ -181,11 +148,10 @@ class ThemeController extends BaseController
         $data = [
             'name'  =>  $name,
             'intro' =>  $intro,
-            'uid'   =>  $uid,
-            'uname' =>  $uname,
+            'pid'   =>  $pid,
             'updated_at'    =>  time(),
         ];
-        ThemeModel::where('id',$id)->update($data);
+        CateModel::where('id',$id)->update($data);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -210,7 +176,7 @@ class ThemeController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $model = ThemeModel::find($id);
+        $model = CateModel::find($id);
         if (!$model) {
             $rstArr = [
                 'error' =>  [
@@ -220,89 +186,25 @@ class ThemeController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['delName'] = $model->getDel();
+        $datas = $this->getCateModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
-            'model' =>  [],
         ];
         echo json_encode($rstArr);exit;
     }
 
     /**
-     * 通过 id、del 设置删除
+     * 获取 model 集合
      */
-    public function setDel()
+    public function getCateModel($model)
     {
-        $id = $_POST['id'];
-        $del = $_POST['del'];
-        if (!$id || !in_array($del,[0,1])) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = ThemeModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        ThemeModel::where('id',$id)->update(['del'=>$del]);
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 销毁数据
-     */
-    public function forceDelete()
-    {
-        $id = $_POST['id'];
-        if (!$id) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = ThemeModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        ThemeModel::where('id',$id)->delete();
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        return $data;
     }
 }
