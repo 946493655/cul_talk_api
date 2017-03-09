@@ -6,7 +6,7 @@ class ThemeModel extends BaseModel
     /**
      * 主题专栏
      */
-    protected $table = 'bs_theme';
+    protected $table = 'theme';
     protected $fillable = [
         'id','name','intro','uid','uname','sort','del','created_at','updated_at',
     ];

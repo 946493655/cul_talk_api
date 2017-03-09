@@ -16,13 +16,40 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `bs_talks`
+-- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `bs_talks`;
+DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks` (
+CREATE TABLE `category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
+  `intro` varchar(255) NOT NULL COMMENT '内容',
+  `pid` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '父类别',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专栏表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `talks`
+--
+
+DROP TABLE IF EXISTS `talks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `talks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '名称',
   `themeid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
@@ -40,23 +67,23 @@ CREATE TABLE `bs_talks` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_talks`
+-- Dumping data for table `talks`
 --
 
-LOCK TABLES `bs_talks` WRITE;
-/*!40000 ALTER TABLE `bs_talks` DISABLE KEYS */;
-INSERT INTO `bs_talks` VALUES (1,'话题1',0,'<p>而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表</p>',1,'',0,0,10,0,20160417,20160417),(2,'话题2 222',0,'<p>不服该办法呢GV热豆腐还不太高和今年投入富家女我我的是女附近的八个人工我可v别沮丧的v比对方不能交电费表肯定是你鄙视吧v那地方就不能hiu二个IE人根据IE如何隔日给举动被GV的人覅偶包过户的人发货不固定不v个is独具不</p><p>55555555555555555555555555555</p>',1,'',0,0,10,0,20160419,1482905650),(3,'话题3333333',0,'<p>               这里可以排版文字，插入或粘贴图片\r\n     </p><p>5151516515615165156165561562626516516515       </p>',1,'',0,0,10,0,20160422,1482905518);
-/*!40000 ALTER TABLE `bs_talks` ENABLE KEYS */;
+LOCK TABLES `talks` WRITE;
+/*!40000 ALTER TABLE `talks` DISABLE KEYS */;
+INSERT INTO `talks` VALUES (1,'话题1',0,'<p>而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表</p>',1,'',0,0,10,0,20160417,20160417),(2,'话题2 222',0,'<p>不服该办法呢GV热豆腐还不太高和今年投入富家女我我的是女附近的八个人工我可v别沮丧的v比对方不能交电费表肯定是你鄙视吧v那地方就不能hiu二个IE人根据IE如何隔日给举动被GV的人覅偶包过户的人发货不固定不v个is独具不</p><p>55555555555555555555555555555</p>',1,'',0,0,10,0,20160419,1482905650),(3,'话题3333333',0,'<p>               这里可以排版文字，插入或粘贴图片\r\n     </p><p>5151516515615165156165561562626516516515       </p>',1,'',0,0,10,0,20160422,1482905518);
+/*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_talks_click`
+-- Table structure for table `talks_click`
 --
 
-DROP TABLE IF EXISTS `bs_talks_click`;
+DROP TABLE IF EXISTS `talks_click`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_click` (
+CREATE TABLE `talks_click` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
@@ -67,22 +94,22 @@ CREATE TABLE `bs_talks_click` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_talks_click`
+-- Dumping data for table `talks_click`
 --
 
-LOCK TABLES `bs_talks_click` WRITE;
-/*!40000 ALTER TABLE `bs_talks_click` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_click` ENABLE KEYS */;
+LOCK TABLES `talks_click` WRITE;
+/*!40000 ALTER TABLE `talks_click` DISABLE KEYS */;
+/*!40000 ALTER TABLE `talks_click` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_talks_collect`
+-- Table structure for table `talks_collect`
 --
 
-DROP TABLE IF EXISTS `bs_talks_collect`;
+DROP TABLE IF EXISTS `talks_collect`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_collect` (
+CREATE TABLE `talks_collect` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
@@ -93,22 +120,22 @@ CREATE TABLE `bs_talks_collect` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_talks_collect`
+-- Dumping data for table `talks_collect`
 --
 
-LOCK TABLES `bs_talks_collect` WRITE;
-/*!40000 ALTER TABLE `bs_talks_collect` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_collect` ENABLE KEYS */;
+LOCK TABLES `talks_collect` WRITE;
+/*!40000 ALTER TABLE `talks_collect` DISABLE KEYS */;
+/*!40000 ALTER TABLE `talks_collect` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_talks_follow`
+-- Table structure for table `talks_follow`
 --
 
-DROP TABLE IF EXISTS `bs_talks_follow`;
+DROP TABLE IF EXISTS `talks_follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_follow` (
+CREATE TABLE `talks_follow` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
@@ -119,100 +146,22 @@ CREATE TABLE `bs_talks_follow` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_talks_follow`
+-- Dumping data for table `talks_follow`
 --
 
-LOCK TABLES `bs_talks_follow` WRITE;
-/*!40000 ALTER TABLE `bs_talks_follow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_follow` ENABLE KEYS */;
+LOCK TABLES `talks_follow` WRITE;
+/*!40000 ALTER TABLE `talks_follow` DISABLE KEYS */;
+/*!40000 ALTER TABLE `talks_follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_talks_report待处理`
+-- Table structure for table `theme待删除`
 --
 
-DROP TABLE IF EXISTS `bs_talks_report待处理`;
+DROP TABLE IF EXISTS `theme待删除`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_report待处理` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题举报表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_talks_report待处理`
---
-
-LOCK TABLES `bs_talks_report待处理` WRITE;
-/*!40000 ALTER TABLE `bs_talks_report待处理` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_report待处理` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_talks_share待处理`
---
-
-DROP TABLE IF EXISTS `bs_talks_share待处理`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_share待处理` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户的id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题分享表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_talks_share待处理`
---
-
-LOCK TABLES `bs_talks_share待处理` WRITE;
-/*!40000 ALTER TABLE `bs_talks_share待处理` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_share待处理` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_talks_thank待处理`
---
-
-DROP TABLE IF EXISTS `bs_talks_thank待处理`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_talks_thank待处理` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题感谢表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_talks_thank待处理`
---
-
-LOCK TABLES `bs_talks_thank待处理` WRITE;
-/*!40000 ALTER TABLE `bs_talks_thank待处理` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_talks_thank待处理` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_theme`
---
-
-DROP TABLE IF EXISTS `bs_theme`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_theme` (
+CREATE TABLE `theme待删除` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '主题名称',
   `intro` varchar(255) NOT NULL COMMENT '内容说明',
@@ -227,13 +176,39 @@ CREATE TABLE `bs_theme` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_theme`
+-- Dumping data for table `theme待删除`
 --
 
-LOCK TABLES `bs_theme` WRITE;
-/*!40000 ALTER TABLE `bs_theme` DISABLE KEYS */;
-INSERT INTO `bs_theme` VALUES (1,'视频制作','<p>视频视频视频视频视频视频视频上视频拍摄拍视频视频视频视频视频上刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏是视频视频视频视频说啪啪啪啪啪啪啪啪啪刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏视频视频视频视频上视频拍摄拍视频视频视频视频视频上</p>',0,'本站',10,0,1470905599,1482913014),(2,'屏幕','<p>无法对被告人不服管</p>',0,'',10,0,1470972254,0),(3,'测试1226','匿名购买父母',0,'本站',10,0,1482910711,1482912952);
-/*!40000 ALTER TABLE `bs_theme` ENABLE KEYS */;
+LOCK TABLES `theme待删除` WRITE;
+/*!40000 ALTER TABLE `theme待删除` DISABLE KEYS */;
+INSERT INTO `theme待删除` VALUES (1,'视频制作','<p>视频视频视频视频视频视频视频上视频拍摄拍视频视频视频视频视频上刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏是视频视频视频视频说啪啪啪啪啪啪啪啪啪刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏视频视频视频视频上视频拍摄拍视频视频视频视频视频上</p>',0,'本站',10,0,1470905599,1482913014),(2,'屏幕','<p>无法对被告人不服管</p>',0,'',10,0,1470972254,0),(3,'测试1226','匿名购买父母',0,'本站',10,0,1482910711,1482912952);
+/*!40000 ALTER TABLE `theme待删除` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `topics`
+--
+
+DROP TABLE IF EXISTS `topics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `topics` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
+  `intro` varchar(255) NOT NULL COMMENT '内容',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专栏表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `topics`
+--
+
+LOCK TABLES `topics` WRITE;
+/*!40000 ALTER TABLE `topics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -245,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-16 22:02:18
+-- Dump completed on 2017-03-09 16:49:09
