@@ -24,13 +24,14 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
+  `name` varchar(255) NOT NULL COMMENT '类别名称',
   `intro` varchar(255) NOT NULL COMMENT '内容',
   `pid` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '父类别',
+  `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类别对应专栏id',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专栏表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='专栏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +40,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'三维系列','特效之三维软件制作系列：',0,2,1489129886,1489130926),(2,'合成系列','特效之合成软件：',0,2,1489131373,1489131390),(3,'剪辑系列','视频剪辑画面处理：',0,2,1489131676,0),(4,'宣传片','样片之宣传片',0,3,1489131810,0),(5,'广告片','样片之广告',0,3,1489131842,0),(6,'微电影','样片之微电影',0,3,1489131859,0),(7,'UI设计','',0,4,1489132121,0),(8,'前端','网站之前端制作',0,4,1489132722,0),(9,'程序','网站制作之程序开发',0,4,1489132785,0),(10,'阅历','',0,5,1489134747,0),(11,'事业','',0,5,1489134774,0),(12,'生活','',0,5,1489134787,0),(13,'点滴','',0,5,1489134803,0);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,37 +157,6 @@ LOCK TABLES `talks_follow` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `theme待删除`
---
-
-DROP TABLE IF EXISTS `theme待删除`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `theme待删除` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '主题名称',
-  `intro` varchar(255) NOT NULL COMMENT '内容说明',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id，0代表默认专栏',
-  `uname` varchar(50) NOT NULL COMMENT '用户名称',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
-  `del` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不删除，1删除',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='话题主题表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `theme待删除`
---
-
-LOCK TABLES `theme待删除` WRITE;
-/*!40000 ALTER TABLE `theme待删除` DISABLE KEYS */;
-INSERT INTO `theme待删除` VALUES (1,'视频制作','<p>视频视频视频视频视频视频视频上视频拍摄拍视频视频视频视频视频上刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏是视频视频视频视频说啪啪啪啪啪啪啪啪啪刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏刷屏视频视频视频视频上视频拍摄拍视频视频视频视频视频上</p>',0,'本站',10,0,1470905599,1482913014),(2,'屏幕','<p>无法对被告人不服管</p>',0,'',10,0,1470972254,0),(3,'测试1226','匿名购买父母',0,'本站',10,0,1482910711,1482912952);
-/*!40000 ALTER TABLE `theme待删除` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `topics`
 --
 
@@ -194,12 +165,13 @@ DROP TABLE IF EXISTS `topics`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `topics` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
+  `name` varchar(50) NOT NULL COMMENT '名称',
   `intro` varchar(255) NOT NULL COMMENT '内容',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '10' COMMENT '排序',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专栏表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='专栏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,6 +180,7 @@ CREATE TABLE `topics` (
 
 LOCK TABLES `topics` WRITE;
 /*!40000 ALTER TABLE `topics` DISABLE KEYS */;
+INSERT INTO `topics` VALUES (1,'自由话题','用户自定义类别的话题',11,1489106688,1489125475),(2,'图形软件','影视制作的一系列软件',14,1489106739,1489125443),(3,'视频作品','关于视频成品的话题',13,1489106943,1489125448),(4,'网站设计','关于网站制作、技术方面的探讨',12,1489106988,1489125470),(5,'人生足迹','可以记录个人的人生阅历',10,1489123170,0);
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -220,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-09 16:49:09
+-- Dump completed on 2017-03-10 16:41:12

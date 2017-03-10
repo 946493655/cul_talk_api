@@ -46,6 +46,65 @@ class TopicController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    /**
+     * 通过 limit 获取记录
+     */
+    public function getTopicsByLimit()
+    {
+        $limit = $_POST['limit'];
+        $models = TopicModel::orderBy('sort','desc')->paginate($limit);
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getTopicModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 获取所有专栏
+     */
+    public function getAll()
+    {
+        $models = TopicModel::all();
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getTopicModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function show()
     {
         $id = $_POST['id'];
@@ -112,6 +171,7 @@ class TopicController extends BaseController
         $id = $_POST['id'];
         $name = $_POST['name'];
         $intro = $_POST['intro'];
+        $sort = $_POST['sort'];
         if (!$id || !$name) {
             $rstArr = [
                 'error' =>  [
@@ -134,6 +194,7 @@ class TopicController extends BaseController
         $data = [
             'name'  =>  $name,
             'intro' =>  $intro,
+            'sort'  =>  $sort,
             'updated_at'    =>  time(),
         ];
         TopicModel::where('id',$id)->update($data);

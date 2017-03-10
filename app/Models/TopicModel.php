@@ -9,6 +9,6 @@ class TopicModel extends BaseModel
 
     protected $table = 'topics';
     protected $fillable = [
-        'id','name','intro','created_at','updated_at',
+        'id','name','intro','link','sort','created_at','updated_at',
     ];
 }

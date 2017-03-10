@@ -9,14 +9,8 @@ class CateController extends BaseController
      * 主题
      */
 
-    public function __construct()
-    {
-        $this->selfModel = new CateModel();
-    }
-
     public function index()
     {
-        echo json_encode([]);exit;
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
@@ -54,7 +48,7 @@ class CateController extends BaseController
     }
 
     /**
-     * 获取所有专栏
+     * 通过 pid 获取类别
      */
     public function getCatesByPid()
     {
@@ -85,13 +79,45 @@ class CateController extends BaseController
     }
 
     /**
-     * 增加记录
+     * 通过 limit 获取记录
      */
+    public function getCatesByLimit()
+    {
+        $limit = $_POST['limit'];
+        $topic_id = $_POST['topic_id'];
+        $models = CateModel::where('topic_id',$topic_id)
+            ->orderBy('id','asc')
+            ->paginate($limit);
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        //整理数据
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getCateModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function store()
     {
         $name = $_POST['name'];
         $intro = $_POST['intro'];
         $pid = $_POST['pid'];
+        $topic_id = $_POST['topic_id'];
         if (!$name) {
             $rstArr = [
                 'error' =>  [
@@ -105,6 +131,7 @@ class CateController extends BaseController
             'name'  =>  $name,
             'intro' =>  $intro,
             'pid'   =>  $pid,
+            'topic_id'  =>  $topic_id,
             'created_at'    =>  time(),
         ];
         CateModel::create($data);
@@ -117,15 +144,13 @@ class CateController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
-    /**
-     * 修改记录
-     */
     public function update()
     {
         $id = $_POST['id'];
         $name = $_POST['name'];
         $intro = $_POST['intro'];
         $pid = $_POST['pid'];
+        $topic_id = $_POST['topic_id'];
         if (!$id || !$name) {
             $rstArr = [
                 'error' =>  [
@@ -149,6 +174,7 @@ class CateController extends BaseController
             'name'  =>  $name,
             'intro' =>  $intro,
             'pid'   =>  $pid,
+            'topic_id'  =>  $topic_id,
             'updated_at'    =>  time(),
         ];
         CateModel::where('id',$id)->update($data);
@@ -205,6 +231,9 @@ class CateController extends BaseController
         $data = $this->objToArr($model);
         $data['createTime'] = $model->createTime();
         $data['updateTime'] = $model->updateTime();
+        $data['topicName'] = $model->getTopicName();
+        $data['pname'] = $model->getParentName();
+        $data['child'] = $model->getChild();
         return $data;
     }
 }

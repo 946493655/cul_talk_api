@@ -22,15 +22,18 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
     //专栏路由
     $app->post('topic', 'TopicController@index');
+    $app->post('topic/topicsbylimit', 'TopicController@getTopicsByLimit');
+    $app->post('topic/show', 'TopicController@show');
+    $app->post('topic/all', 'TopicController@getAll');
     $app->post('topic/add', 'TopicController@store');
     $app->post('topic/modify', 'TopicController@update');
-    $app->post('topic/show', 'TopicController@show');
     //类别路由
-    $app->post('category', 'CateController@index');
+    $app->post('cate', 'CateController@index');
+    $app->post('cate/catesbypid', 'CateController@getCatesByPid');
+    $app->post('cate/catesbylimit', 'CateController@getCatesByLimit');
+    $app->post('cate/show', 'CateController@show');
     $app->post('cate/add', 'CateController@store');
     $app->post('cate/modify', 'CateController@update');
-    $app->post('cate/show', 'CateController@show');
-    $app->post('cate/catesbypid', 'CateController@getCatesByPid');
 });
 
 
