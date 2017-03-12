@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '类别名称',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `intro` varchar(255) NOT NULL COMMENT '内容',
   `pid` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '父类别',
   `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '类别对应专栏id',
@@ -40,7 +41,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'三维系列','特效之三维软件制作系列：',0,2,1489129886,1489130926),(2,'合成系列','特效之合成软件：',0,2,1489131373,1489131390),(3,'剪辑系列','视频剪辑画面处理：',0,2,1489131676,0),(4,'宣传片','样片之宣传片',0,3,1489131810,0),(5,'广告片','样片之广告',0,3,1489131842,0),(6,'微电影','样片之微电影',0,3,1489131859,0),(7,'UI设计','',0,4,1489132121,0),(8,'前端','网站之前端制作',0,4,1489132722,0),(9,'程序','网站制作之程序开发',0,4,1489132785,0),(10,'阅历','',0,5,1489134747,0),(11,'事业','',0,5,1489134774,0),(12,'生活','',0,5,1489134787,0),(13,'点滴','',0,5,1489134803,0);
+INSERT INTO `category` VALUES (1,'三维系列',0,'特效之三维软件制作系列：',0,2,1489129886,1489130926),(2,'合成系列',0,'特效之合成软件：',0,2,1489131373,1489131390),(3,'剪辑系列',0,'视频剪辑画面处理：',0,2,1489131676,0),(4,'宣传片',0,'样片之宣传片',0,3,1489131810,0),(5,'广告片',0,'样片之广告',0,3,1489131842,0),(6,'微电影',0,'样片之微电影',0,3,1489131859,0),(7,'UI设计',0,'',0,4,1489132121,0),(8,'前端',0,'网站之前端制作',0,4,1489132722,0),(9,'程序',0,'网站制作之程序开发',0,4,1489132785,0),(10,'阅历',0,'',0,5,1489134747,0),(11,'事业',0,'',0,5,1489134774,0),(12,'生活',0,'',0,5,1489134787,0),(13,'点滴',0,'',0,5,1489134803,0);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,19 +54,20 @@ DROP TABLE IF EXISTS `talks`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `talks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '名称',
-  `themeid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
-  `intro` varchar(2000) NOT NULL COMMENT '创意内容',
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
+  `cate` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类别id',
+  `intro` varchar(1000) NOT NULL COMMENT '创意内容',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
   `uname` varchar(50) NOT NULL COMMENT '用户名称',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级id',
   `read` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站功能：0不放入回收站，1放入回收站',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='话题表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='话题表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +76,7 @@ CREATE TABLE `talks` (
 
 LOCK TABLES `talks` WRITE;
 /*!40000 ALTER TABLE `talks` DISABLE KEYS */;
-INSERT INTO `talks` VALUES (1,'话题1',0,'<p>而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表而非v代表</p>',1,'',0,0,10,0,20160417,20160417),(2,'话题2 222',0,'<p>不服该办法呢GV热豆腐还不太高和今年投入富家女我我的是女附近的八个人工我可v别沮丧的v比对方不能交电费表肯定是你鄙视吧v那地方就不能hiu二个IE人根据IE如何隔日给举动被GV的人覅偶包过户的人发货不固定不v个is独具不</p><p>55555555555555555555555555555</p>',1,'',0,0,10,0,20160419,1482905650),(3,'话题3333333',0,'<p>               这里可以排版文字，插入或粘贴图片\r\n     </p><p>5151516515615165156165561562626516516515       </p>',1,'',0,0,10,0,20160422,1482905518);
+INSERT INTO `talks` VALUES (1,'模型制作',2,0,'12345',1,'jiuge',0,0,10,2,1489323321,0);
 /*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,4 +195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-10 16:41:12
+-- Dump completed on 2017-03-12 21:07:27

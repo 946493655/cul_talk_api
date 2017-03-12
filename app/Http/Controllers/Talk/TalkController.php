@@ -19,18 +19,27 @@ class TalkController extends BaseController
      */
     public function index()
     {
-        $uname = (isset($_POST['uname'])&&$_POST['uname'])?$_POST['uname']:'';
+        $topic = $_POST['topic'];
+        $cate = $_POST['cate'];
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
-        if ($uname) {
-            $models = TalksModel::where('uname','like','%'.$uname.'%')
-                ->orderBy('id','desc')
+        $cateArr = $this->selfModel->getCateArr($cate);
+        if ($topic && $cateArr) {
+            $query = TalksModel::where('topic_id',$topic)
+                ->whereIn('cate',$cateArr);
+        } else if (!$topic && $cateArr) {
+            $query = TalksModel::whereIn('cate',$cateArr);
+        } else if ($topic && !$cateArr) {
+            $query = TalksModel::where('topic_id',$topic);
+        }
+        if (isset($query)) {
+            $models = $query->orderBy('id','desc')
                 ->skip($start)
                 ->take($limit)
                 ->get();
-            $total = TalksModel::where('uname','like','%'.$uname.'%')->count();
+            $total = $query->count();
         } else {
             $models = TalksModel::orderBy('id','desc')
                 ->skip($start)
@@ -50,11 +59,7 @@ class TalkController extends BaseController
         //整理数据
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['clickNum'] = count($model->click());
-            $datas[$k]['followNum'] = count($model->follow());
+            $datas[$k] = $this->getTalkModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -70,16 +75,50 @@ class TalkController extends BaseController
     }
 
     /**
-     * 添加话题
+     * 通过 id 获取一条记录
      */
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = TalksModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+            'model' =>  [],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function store()
     {
         $name = $_POST['name'];
-        $themeid = $_POST['themeid'];
+        $topic_id = $_POST['topic_id'];
         $intro = $_POST['intro'];
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
-        if (!$name || !$themeid || !$intro || (!$uid && !$uname)) {
+        if (!$name || !$topic_id || !$intro || (!$uid && !$uname)) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -90,7 +129,7 @@ class TalkController extends BaseController
         }
         $data = [
             'name'  =>  $name,
-            'themeid'   =>  $themeid,
+            'topic_id'   =>  $topic_id,
             'intro' =>  $intro,
             'uid'   =>  $uid,
             'uname' =>  $uname,
@@ -106,9 +145,6 @@ class TalkController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
-    /**
-     * 修改话题
-     */
     public function update()
     {
         $id = $_POST['id'];
@@ -153,114 +189,13 @@ class TalkController extends BaseController
     }
 
     /**
-     * 通过 id 获取一条记录
+     * 获取 talkModel 集合
      */
-    public function show()
+    public function getTalkModel($model)
     {
-        $id = $_POST['id'];
-        if (!$id) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = TalksModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $datas = $this->objToArr($model);
+        $data = $this->objToArr($model);
         $datas['createTime'] = $model->createTime();
         $datas['updateTime'] = $model->updateTime();
-        $datas['clickNum'] = count($model->click());
-        $datas['followNum'] = count($model->follow());
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'data'  =>  $datas,
-            'model' =>  [],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 设置是否删除
-     */
-    public function setDel()
-    {
-        $id = $_POST['id'];
-        $del = $_POST['del'];
-        if (!$id || !in_array($del,[0,1])) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = TalksModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        TalksModel::where('id',$id)->update(['del'=> $del]);
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 销毁数据
-     */
-    public function forceDelete()
-    {
-        $id = $_POST['id'];
-        if (!$id) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = TalksModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        TalksModel::where('id',$id)->delate();
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
+        return $data;
     }
 }

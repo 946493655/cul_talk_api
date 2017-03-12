@@ -11,15 +11,25 @@ class CateController extends BaseController
 
     public function index()
     {
+        $topic = $_POST['topic'];
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
-        $models = CateModel::skip($start)
-            ->take($limit)
-            ->orderBy('id','desc')
-            ->get();
-        $total = CateModel::count();
+        if ($topic) {
+            $models = CateModel::where('topic_id',$topic)
+                ->skip($start)
+                ->take($limit)
+                ->orderBy('id','desc')
+                ->get();
+            $total = CateModel::where('topic_id',$topic)->count();
+        } else {
+            $models = CateModel::skip($start)
+                ->take($limit)
+                ->orderBy('id','desc')
+                ->get();
+            $total = CateModel::count();
+        }
         if (!count($models)) {
             $rstArr = [
                 'error' => [
@@ -115,6 +125,7 @@ class CateController extends BaseController
     public function store()
     {
         $name = $_POST['name'];
+        $uid = isset($_POST['uid']) ? $_POST['uid'] : 0;
         $intro = $_POST['intro'];
         $pid = $_POST['pid'];
         $topic_id = $_POST['topic_id'];
@@ -129,6 +140,7 @@ class CateController extends BaseController
         }
         $data = [
             'name'  =>  $name,
+            'uid'   =>  $uid,
             'intro' =>  $intro,
             'pid'   =>  $pid,
             'topic_id'  =>  $topic_id,
@@ -147,6 +159,7 @@ class CateController extends BaseController
     public function update()
     {
         $id = $_POST['id'];
+        $uid = isset($_POST['uid']) ? $_POST['uid'] : 0;
         $name = $_POST['name'];
         $intro = $_POST['intro'];
         $pid = $_POST['pid'];

@@ -8,7 +8,7 @@ class CateModel extends BaseModel
      */
     protected $table = 'category';
     protected $fillable = [
-        'id','name','intro','pid','topic_id','created_at','updated_at',
+        'id','name','intro','uid','pid','topic_id','created_at','updated_at',
     ];
 
     /**
