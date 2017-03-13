@@ -31,25 +31,24 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('cate', 'CateController@index');
     $app->post('cate/catesbypid', 'CateController@getCatesByPid');
     $app->post('cate/catesbylimit', 'CateController@getCatesByLimit');
+    $app->post('cate/catesbytopic', 'CateController@getCatesByTopic');
     $app->post('cate/show', 'CateController@show');
     $app->post('cate/add', 'CateController@store');
     $app->post('cate/modify', 'CateController@update');
-});
-
-
-//话题管理
-$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], function () use ($app) {
     //话题管理
     $app->post('talk', 'TalkController@index');
     $app->post('talk/add', 'TalkController@store');
     $app->post('talk/modify', 'TalkController@update');
     $app->post('talk/show', 'TalkController@show');
-    $app->post('talk/isdel', 'TalkController@setDel');
-    $app->post('talk/delete', 'TalkController@forceDelete');
-    //点赞
-    $app->post('talkclick', 'TalkClickController@getListByUid');
-    //收藏
-    $app->post('talkcollect', 'TalkCollectController@getListByUid');
-    //关注
-    $app->post('talkfollow', 'TalkFollowController@getListByUid');
 });
+
+
+////话题管理
+//$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], function () use ($app) {
+//    //点赞
+//    $app->post('talkclick', 'TalkClickController@getListByUid');
+//    //收藏
+//    $app->post('talkcollect', 'TalkCollectController@getListByUid');
+//    //关注
+//    $app->post('talkfollow', 'TalkFollowController@getListByUid');
+//});

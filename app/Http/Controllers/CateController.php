@@ -122,6 +122,95 @@ class CateController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    /**
+     * 通过 topic 获取二级类别
+     */
+    public function getCatesByTopic()
+    {
+        $topic_id = $_POST['topic_id'];
+        //level：0所有，1一级类别，2非一级类别
+        $level = $_POST['level'];
+        if (!$topic_id || !in_array($level,[0,1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        if ($level==0) {
+            $models = CateModel::where('topic_id',$topic_id)->get();
+        } else if ($level==1) {
+            $models = CateModel::where('topic_id',$topic_id)
+                ->where('pid',0)
+                ->get();
+        } else {
+            $models = CateModel::where('topic_id',$topic_id)
+                ->where('pid','<>',0)
+                ->get();
+        }
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        //整理数据
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getCateModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+
+    }
+
+    /**
+     * 通过 id 获取一条记录
+     */
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = CateModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->getCateModel($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function store()
     {
         $name = $_POST['name'];
@@ -201,42 +290,6 @@ class CateController extends BaseController
     }
 
     /**
-     * 通过 id 获取一条记录
-     */
-    public function show()
-    {
-        $id = $_POST['id'];
-        if (!$id) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = CateModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $datas = $this->getCateModel($model);
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'data'  =>  $datas,
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
      * 获取 model 集合
      */
     public function getCateModel($model)
@@ -247,6 +300,7 @@ class CateController extends BaseController
         $data['topicName'] = $model->getTopicName();
         $data['pname'] = $model->getParentName();
         $data['child'] = $model->getChild();
+        $data['parent'] = $model->getParent();
         return $data;
     }
 }

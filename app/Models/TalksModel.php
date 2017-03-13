@@ -1,9 +1,5 @@
 <?php
-namespace App\Models\Talk;
-
-use App\Models\BaseModel;
-use App\Models\CateModel;
-use App\Models\ThemeModel;
+namespace App\Models;
 
 class TalksModel extends BaseModel
 {

@@ -142,6 +142,7 @@ class TopicController extends BaseController
     {
         $name = $_POST['name'];
         $intro = $_POST['intro'];
+        $uid = isset($_POST['uid']) ? $_POST['uid'] : 0;
         if (!$name) {
             $rstArr = [
                 'error' =>  [
@@ -151,9 +152,20 @@ class TopicController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
+        $model = TopicModel::where('name',$name)->first();
+        if ($model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '存在同名专栏！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
         $data = [
             'name'  =>  $name,
             'intro' =>  $intro,
+            'uid'   =>  $uid,
             'created_at'    =>  time(),
         ];
         TopicModel::create($data);
@@ -172,6 +184,7 @@ class TopicController extends BaseController
         $name = $_POST['name'];
         $intro = $_POST['intro'];
         $sort = $_POST['sort'];
+        $uid = isset($_POST['uid']) ? $_POST['uid'] : 0;
         if (!$id || !$name) {
             $rstArr = [
                 'error' =>  [
@@ -191,10 +204,21 @@ class TopicController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
+        $model2 = TopicModel::where('name',$name)->first();
+        if ($model2) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -3,
+                    'msg'   =>  '存在同名专栏！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
         $data = [
             'name'  =>  $name,
             'intro' =>  $intro,
             'sort'  =>  $sort,
+            'uid'   =>  $uid,
             'updated_at'    =>  time(),
         ];
         TopicModel::where('id',$id)->update($data);

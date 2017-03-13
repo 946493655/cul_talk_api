@@ -169,6 +169,7 @@ CREATE TABLE `topics` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '名称',
   `intro` varchar(255) NOT NULL COMMENT '内容',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '10' COMMENT '排序',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
@@ -182,7 +183,7 @@ CREATE TABLE `topics` (
 
 LOCK TABLES `topics` WRITE;
 /*!40000 ALTER TABLE `topics` DISABLE KEYS */;
-INSERT INTO `topics` VALUES (1,'自由话题','用户自定义类别的话题',11,1489106688,1489125475),(2,'图形软件','影视制作的一系列软件',14,1489106739,1489125443),(3,'视频作品','关于视频成品的话题',13,1489106943,1489125448),(4,'网站设计','关于网站制作、技术方面的探讨',12,1489106988,1489125470),(5,'人生足迹','可以记录个人的人生阅历',10,1489123170,0);
+INSERT INTO `topics` VALUES (1,'自由话题','用户自定义类别的话题',0,11,1489106688,1489125475),(2,'图形软件','影视制作的一系列软件',0,14,1489106739,1489125443),(3,'视频作品','关于视频成品的话题',0,13,1489106943,1489125448),(4,'网站设计','关于网站制作、技术方面的探讨',0,12,1489106988,1489125470),(5,'人生足迹','可以记录个人的人生阅历',0,10,1489123170,0);
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -195,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-12 21:07:27
+-- Dump completed on 2017-03-13 16:47:41

@@ -1,7 +1,7 @@
 <?php
-namespace App\Http\Controllers\Talk;
+namespace App\Http\Controllers;
 
-use App\Models\Talk\TalksModel;
+use App\Models\TalksModel;
 
 class TalkController extends BaseController
 {
@@ -194,8 +194,8 @@ class TalkController extends BaseController
     public function getTalkModel($model)
     {
         $data = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
         return $data;
     }
 }

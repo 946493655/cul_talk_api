@@ -43,4 +43,18 @@ class CateModel extends BaseModel
         }
         return $models ? $models : [];
     }
+
+    /**
+     * 获取上级2次
+     */
+    public function getParent()
+    {
+        if ($this->pid==0) { return '顶级类别'; }
+        $parent = CateModel::find($this->pid);
+        if ($parent->pid!=0) {
+            $parent2 = CateModel::find($parent->pid);
+        }
+        $parent->parent = isset($parent2) ? $parent2 : '';
+        return $parent;
+    }
 }
