@@ -22,7 +22,6 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], function () use ($app) {
     //专栏路由
     $app->post('topic', 'TopicController@index');
-    $app->post('topic/topicsbylimit', 'TopicController@getTopicsByLimit');
     $app->post('topic/show', 'TopicController@show');
     $app->post('topic/all', 'TopicController@getAll');
     $app->post('topic/add', 'TopicController@store');

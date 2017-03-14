@@ -11,12 +11,30 @@ class CateController extends BaseController
 
     public function index()
     {
-        $topic = $_POST['topic'];
+        $topic = $_POST['topic_id'];
+        $uid = $_POST['uid'];
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
-        if ($topic) {
+        if ($topic && $uid) {
+            $models = CateModel::where('topic_id',$topic)
+                ->where('uid',$uid)
+                ->skip($start)
+                ->take($limit)
+                ->orderBy('id','desc')
+                ->get();
+            $total = CateModel::where('uid',$uid)
+                ->where('topic_id',$topic)
+                ->count();
+        } else if (!$topic && $uid) {
+            $models = CateModel::where('uid',$uid)
+                ->skip($start)
+                ->take($limit)
+                ->orderBy('id','desc')
+                ->get();
+            $total = CateModel::where('uid',$uid)->count();
+        } else if ($topic && !$uid) {
             $models = CateModel::where('topic_id',$topic)
                 ->skip($start)
                 ->take($limit)
@@ -64,40 +82,6 @@ class CateController extends BaseController
     {
         $pid = $_POST['pid'];
         $models = CateModel::where('pid',$pid)->get();
-        if (!count($models)) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        //整理数据
-        $datas = array();
-        foreach ($models as $k=>$model) {
-            $datas[$k] = $this->getCateModel($model);
-        }
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'data'  =>  $datas,
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 通过 limit 获取记录
-     */
-    public function getCatesByLimit()
-    {
-        $limit = $_POST['limit'];
-        $topic_id = $_POST['topic_id'];
-        $models = CateModel::where('topic_id',$topic_id)
-            ->orderBy('id','asc')
-            ->paginate($limit);
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [

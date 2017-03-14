@@ -21,18 +21,33 @@ class TalkController extends BaseController
     {
         $topic = $_POST['topic'];
         $cate = $_POST['cate'];
+        $uid = $_POST['uid'];
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
         $cateArr = $this->selfModel->getCateArr($cate);
-        if ($topic && $cateArr) {
-            $query = TalksModel::where('topic_id',$topic)
-                ->whereIn('cate',$cateArr);
-        } else if (!$topic && $cateArr) {
-            $query = TalksModel::whereIn('cate',$cateArr);
-        } else if ($topic && !$cateArr) {
-            $query = TalksModel::where('topic_id',$topic);
+        if ($uid) {
+            if ($topic && $cateArr) {
+                $query = TalksModel::where('topic_id',$topic)
+                    ->where('topic_id',$topic)
+                    ->where('uid',$uid);
+            } else if (!$topic && $cateArr) {
+                $query = TalksModel::whereIn('cate',$cateArr)
+                    ->where('uid',$uid);
+            } else if ($topic && !$cateArr) {
+                $query = TalksModel::where('topic_id',$topic)
+                    ->where('uid',$uid);
+            }
+        } else {
+            if ($topic && $cateArr) {
+                $query = TalksModel::where('topic_id',$topic)
+                    ->whereIn('cate',$cateArr);
+            } else if (!$topic && $cateArr) {
+                $query = TalksModel::whereIn('cate',$cateArr);
+            } else if ($topic && !$cateArr) {
+                $query = TalksModel::where('topic_id',$topic);
+            }
         }
         if (isset($query)) {
             $models = $query->orderBy('id','desc')

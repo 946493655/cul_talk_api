@@ -11,15 +11,28 @@ class TopicController extends BaseController
 
     public function index()
     {
+        $uid = $_POST['uid'];
         $limit = (isset($_POST['limit'])&&$_POST['limit'])?$_POST['limit']:$this->limit;     //每页显示记录数
         $page = isset($_POST['page'])?$_POST['page']:1;         //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
-        $models = TopicModel::skip($start)
-            ->take($limit)
-            ->orderBy('id','desc')
-            ->get();
-        $total = TopicModel::count();
+        if (!$uid) {
+            $models = TopicModel::skip($start)
+                ->take($limit)
+                ->orderBy('sort','desc')
+                ->orderBy('id','desc')
+                ->get();
+            $total = TopicModel::count();
+        } else {
+            $models = TopicModel::where('uid',$uid)
+                ->skip($start)
+                ->take($limit)
+                ->orderBy('sort','desc')
+                ->orderBy('id','desc')
+                ->get();
+            $total = TopicModel::where('uid',$uid)
+                ->count();
+        }
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -42,36 +55,6 @@ class TopicController extends BaseController
             'pagelist'  =>  [
                 'total' =>  $total,
             ],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 通过 limit 获取记录
-     */
-    public function getTopicsByLimit()
-    {
-        $limit = $_POST['limit'];
-        $models = TopicModel::orderBy('sort','desc')->paginate($limit);
-        if (!count($models)) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有记录！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $datas = array();
-        foreach ($models as $k=>$model) {
-            $datas[$k] = $this->getTopicModel($model);
-        }
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'data'  =>  $datas,
         ];
         echo json_encode($rstArr);exit;
     }
