@@ -130,10 +130,11 @@ class TalkController extends BaseController
     {
         $name = $_POST['name'];
         $topic_id = $_POST['topic_id'];
+        $cate = $_POST['cate'];
         $intro = $_POST['intro'];
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
-        if (!$name || !$topic_id || !$intro || (!$uid && !$uname)) {
+        if (!$name || !$topic_id || !$cate || !$intro || (!$uid && !$uname)) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -145,9 +146,11 @@ class TalkController extends BaseController
         $data = [
             'name'  =>  $name,
             'topic_id'   =>  $topic_id,
+            'cate'  =>  $cate,
             'intro' =>  $intro,
             'uid'   =>  $uid,
             'uname' =>  $uname,
+            'award' =>  rand(1,5),      //话题发布的积分奖励，随机1-5
             'created_at'    =>  time(),
         ];
         TalksModel::create($data);

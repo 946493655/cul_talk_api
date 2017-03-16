@@ -31,6 +31,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('cate/catesbypid', 'CateController@getCatesByPid');
     $app->post('cate/catesbylimit', 'CateController@getCatesByLimit');
     $app->post('cate/catesbytopic', 'CateController@getCatesByTopic');
+    $app->post('cate/parent', 'CateController@getParent');
     $app->post('cate/show', 'CateController@show');
     $app->post('cate/add', 'CateController@store');
     $app->post('cate/modify', 'CateController@update');

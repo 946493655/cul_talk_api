@@ -8,9 +8,13 @@ class TalksModel extends BaseModel
      */
     protected $table = 'talks';
     protected $fillable = [
-        'id','name','topic_id','cate','intro','uid','uname','read','pid','sort','isshow','created_at','updated_at',
+        'id','name','topic_id','cate','intro','award','uid','uname','read','sort','isshow','created_at','updated_at',
     ];
+    //award发布话题的积分奖励：1-5随机值
 
+    /**
+     * 根据 category 获取所有子类别的id
+     */
     public function getCateArr($cate)
     {
         if (!$cate) { return array(); }

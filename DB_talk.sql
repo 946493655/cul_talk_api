@@ -32,7 +32,7 @@ CREATE TABLE `category` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='专栏表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='专栏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,8 +41,63 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'三维系列',0,'特效之三维软件制作系列：',0,2,1489129886,1489130926),(2,'合成系列',0,'特效之合成软件：',0,2,1489131373,1489131390),(3,'剪辑系列',0,'视频剪辑画面处理：',0,2,1489131676,0),(4,'宣传片',0,'样片之宣传片',0,3,1489131810,0),(5,'广告片',0,'样片之广告',0,3,1489131842,0),(6,'微电影',0,'样片之微电影',0,3,1489131859,0),(7,'UI设计',0,'',0,4,1489132121,0),(8,'前端',0,'网站之前端制作',0,4,1489132722,0),(9,'程序',0,'网站制作之程序开发',0,4,1489132785,0),(10,'阅历',0,'',0,5,1489134747,0),(11,'事业',0,'',0,5,1489134774,0),(12,'生活',0,'',0,5,1489134787,0),(13,'点滴',0,'',0,5,1489134803,0);
+INSERT INTO `category` VALUES (1,'三维系列',1,'特效之三维软件制作系列：',0,2,1489129886,1489130926),(2,'合成系列',1,'特效之合成软件：',0,2,1489131373,1489131390),(3,'剪辑系列',1,'视频剪辑画面处理：',0,2,1489131676,0),(4,'宣传片',1,'样片之宣传片',0,3,1489131810,0),(5,'广告片',1,'样片之广告',0,3,1489131842,0),(6,'微电影',1,'样片之微电影',0,3,1489131859,0),(7,'UI设计',1,'',0,4,1489132121,0),(8,'前端',1,'网站之前端制作',0,4,1489132722,0),(9,'程序',1,'网站制作之程序开发',0,4,1489132785,0),(10,'阅历',1,'',0,5,1489134747,0),(11,'事业',1,'',0,5,1489134774,0),(12,'生活',1,'',0,5,1489134787,0),(13,'点滴',1,'',0,5,1489134803,0),(14,'MAYA',1,'',1,2,1489627001,0),(15,'AE',1,'',2,2,1489642157,0),(16,'Edius',1,'',3,2,1489642176,0);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论的话题',
+  `intro` varchar(255) NOT NULL DEFAULT '0' COMMENT '积分数量',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `integral`
+--
+
+DROP TABLE IF EXISTS `integral`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `integral` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易发起用户id',
+  `uid2` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '交易接受用户id',
+  `talkid` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '针对的话题',
+  `number` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '积分数量',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分交易表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `integral`
+--
+
+LOCK TABLES `integral` WRITE;
+/*!40000 ALTER TABLE `integral` DISABLE KEYS */;
+/*!40000 ALTER TABLE `integral` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -58,9 +113,9 @@ CREATE TABLE `talks` (
   `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
   `cate` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类别id',
   `intro` varchar(1000) NOT NULL COMMENT '创意内容',
+  `award` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '话题发布的积分奖励，1-5随机值',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
   `uname` varchar(50) NOT NULL COMMENT '用户名称',
-  `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级id',
   `read` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
   `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
@@ -76,7 +131,7 @@ CREATE TABLE `talks` (
 
 LOCK TABLES `talks` WRITE;
 /*!40000 ALTER TABLE `talks` DISABLE KEYS */;
-INSERT INTO `talks` VALUES (1,'模型制作',2,0,'12345',1,'jiuge',0,0,10,2,1489323321,0);
+INSERT INTO `talks` VALUES (1,'模型制作',2,14,'嘎嘎嘎灌灌灌灌灌灌灌灌灌灌',3,1,'jiuge',0,10,2,1489652378,0);
 /*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-13 16:47:41
+-- Dump completed on 2017-03-16 16:44:37

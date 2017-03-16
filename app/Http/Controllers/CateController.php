@@ -156,7 +156,49 @@ class CateController extends BaseController
             'data'  =>  $datas,
         ];
         echo json_encode($rstArr);exit;
+    }
 
+    /**
+     * 通过 topic 获取父级类别
+     */
+    public function getParent()
+    {
+        $topic_id = $_POST['topic_id'];
+        $limit = $_POST['limit'];
+        if (!$limit) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $models = CateModel::where('topic_id',$topic_id)
+            ->where('pid',0)
+            ->paginate($limit);
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        //整理数据
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getCateModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
     }
 
     /**
