@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\Talk;
+namespace App\Models;
 
 class CommentModel extends BaseModel
 {

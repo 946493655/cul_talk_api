@@ -101,6 +101,33 @@ LOCK TABLES `integral` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `param`
+--
+
+DROP TABLE IF EXISTS `param`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `param` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户',
+  `integral` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '积分总数',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户参数表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `param`
+--
+
+LOCK TABLES `param` WRITE;
+/*!40000 ALTER TABLE `param` DISABLE KEYS */;
+INSERT INTO `param` VALUES (1,1,1,1489729311,0);
+/*!40000 ALTER TABLE `param` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `talks`
 --
 
@@ -131,7 +158,7 @@ CREATE TABLE `talks` (
 
 LOCK TABLES `talks` WRITE;
 /*!40000 ALTER TABLE `talks` DISABLE KEYS */;
-INSERT INTO `talks` VALUES (1,'模型制作',2,14,'嘎嘎嘎灌灌灌灌灌灌灌灌灌灌',3,1,'jiuge',0,10,2,1489652378,0);
+INSERT INTO `talks` VALUES (1,'AE123',2,15,'aeaeae',1,1,'jiuge',0,10,2,1489729311,0);
 /*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-16 16:44:37
+-- Dump completed on 2017-03-17 16:26:52

@@ -35,11 +35,17 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('cate/show', 'CateController@show');
     $app->post('cate/add', 'CateController@store');
     $app->post('cate/modify', 'CateController@update');
-    //话题管理
+    //话题路由
     $app->post('talk', 'TalkController@index');
     $app->post('talk/add', 'TalkController@store');
     $app->post('talk/modify', 'TalkController@update');
     $app->post('talk/show', 'TalkController@show');
+    //评论路由
+    $app->post('comment', 'CommentController@index');
+    //积分交易
+    $app->post('integral', 'IntegralController');
+    //参数统计
+    $app->post('param/show', 'ParamController@show');
 });
 
 

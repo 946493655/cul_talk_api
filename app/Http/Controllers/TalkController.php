@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\ParamModel;
 use App\Models\TalksModel;
 
 class TalkController extends BaseController
@@ -143,6 +144,8 @@ class TalkController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
+        //话题发布的积分奖励，随机1-5
+        $award = rand(1,5);
         $data = [
             'name'  =>  $name,
             'topic_id'   =>  $topic_id,
@@ -150,10 +153,12 @@ class TalkController extends BaseController
             'intro' =>  $intro,
             'uid'   =>  $uid,
             'uname' =>  $uname,
-            'award' =>  rand(1,5),      //话题发布的积分奖励，随机1-5
+            'award' =>  $award,
             'created_at'    =>  time(),
         ];
         TalksModel::create($data);
+        //更新该用户积分总数
+        $this->setParam($uid,$award);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -161,6 +166,28 @@ class TalkController extends BaseController
             ],
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 更新用户积分总数
+     */
+    public function setParam($uid,$award)
+    {
+        $param = ParamModel::where('uid',$uid)->first();
+        if (!$param) {
+            $data = [
+                'uid'   =>  $uid,
+                'integral'      =>  $award,
+                'created_at'    =>  time(),
+            ];
+            ParamModel::create($data);
+        } else {
+            $data = [
+                'integral'  =>  $param->integral + $award,
+                'updated_at'    =>  time(),
+            ];
+            ParamModel::where('uid',$uid)->update($data);
+        }
     }
 
     public function update()
