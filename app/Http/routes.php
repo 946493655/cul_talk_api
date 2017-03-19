@@ -37,24 +37,17 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('cate/modify', 'CateController@update');
     //话题路由
     $app->post('talk', 'TalkController@index');
+    $app->post('talk/show', 'TalkController@show');
     $app->post('talk/add', 'TalkController@store');
     $app->post('talk/modify', 'TalkController@update');
-    $app->post('talk/show', 'TalkController@show');
+    $app->post('talk/setread', 'TalkController@setRead');
     //评论路由
     $app->post('comment', 'CommentController@index');
     //积分交易
-    $app->post('integral', 'IntegralController');
+    $app->post('integral', 'IntegralController@index');
+    $app->post('integral/onebytalkid', 'IntegralController@getOneByTalkid');
+    $app->post('integral/add', 'IntegralController@store');
+    $app->post('integral/setuser', 'IntegralController@setUser');
     //参数统计
     $app->post('param/show', 'ParamController@show');
 });
-
-
-////话题管理
-//$app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Talk'], function () use ($app) {
-//    //点赞
-//    $app->post('talkclick', 'TalkClickController@getListByUid');
-//    //收藏
-//    $app->post('talkcollect', 'TalkCollectController@getListByUid');
-//    //关注
-//    $app->post('talkfollow', 'TalkFollowController@getListByUid');
-//});

@@ -88,7 +88,7 @@ CREATE TABLE `integral` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分交易表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='积分交易表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +97,7 @@ CREATE TABLE `integral` (
 
 LOCK TABLES `integral` WRITE;
 /*!40000 ALTER TABLE `integral` DISABLE KEYS */;
+INSERT INTO `integral` VALUES (1,1,0,1,1,1489892217,0);
 /*!40000 ALTER TABLE `integral` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,6 +141,7 @@ CREATE TABLE `talks` (
   `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
   `cate` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类别id',
   `intro` varchar(1000) NOT NULL COMMENT '创意内容',
+  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
   `award` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '话题发布的积分奖励，1-5随机值',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
   `uname` varchar(50) NOT NULL COMMENT '用户名称',
@@ -158,7 +160,7 @@ CREATE TABLE `talks` (
 
 LOCK TABLES `talks` WRITE;
 /*!40000 ALTER TABLE `talks` DISABLE KEYS */;
-INSERT INTO `talks` VALUES (1,'AE123',2,15,'aeaeae',1,1,'jiuge',0,10,2,1489729311,0);
+INSERT INTO `talks` VALUES (1,'AE123',2,15,'aeaeae','',1,1,'jiuge',3,10,2,1489729311,0);
 /*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,58 +188,6 @@ CREATE TABLE `talks_click` (
 LOCK TABLES `talks_click` WRITE;
 /*!40000 ALTER TABLE `talks_click` DISABLE KEYS */;
 /*!40000 ALTER TABLE `talks_click` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `talks_collect`
---
-
-DROP TABLE IF EXISTS `talks_collect`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `talks_collect` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题收藏表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `talks_collect`
---
-
-LOCK TABLES `talks_collect` WRITE;
-/*!40000 ALTER TABLE `talks_collect` DISABLE KEYS */;
-/*!40000 ALTER TABLE `talks_collect` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `talks_follow`
---
-
-DROP TABLE IF EXISTS `talks_follow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `talks_follow` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `talkid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题关注表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `talks_follow`
---
-
-LOCK TABLES `talks_follow` WRITE;
-/*!40000 ALTER TABLE `talks_follow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `talks_follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -278,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-17 16:26:52
+-- Dump completed on 2017-03-19 21:51:24

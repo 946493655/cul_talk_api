@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use App\Models\Talk\ClickModel;
+
 class TalksModel extends BaseModel
 {
     /**
@@ -32,5 +34,32 @@ class TalksModel extends BaseModel
             }
         }
         return $cateArr;
+    }
+
+    /**
+     * 获取赏积分的额度
+     */
+    public function getIntegral()
+    {
+        $integral = IntegralModel::where('talkid',$this->id)->first();
+        return $integral ? $integral->number : 0;
+    }
+
+    /**
+     * 获取评论
+     */
+    public function getComments()
+    {
+        $comments = CommentModel::where('talkid',$this->id)->get();
+        return $comments ? $comments : [];
+    }
+
+    /**
+     * 获取点赞
+     */
+    public function getClicks()
+    {
+        $clicks = ClickModel::where('talkid',$this->id)->get();
+        return $clicks ? $clicks : [];
     }
 }

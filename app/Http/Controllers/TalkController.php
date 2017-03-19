@@ -115,7 +115,9 @@ class TalkController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
+        //设置阅读量自增
+        TalksModel::where('id',$id)->increment('read');
+        $datas = $this->getTalkModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -241,6 +243,9 @@ class TalkController extends BaseController
         $data = $this->objToArr($model);
         $data['createTime'] = $model->createTime();
         $data['updateTime'] = $model->updateTime();
+        $data['integral'] = $model->getIntegral();
+        $data['commentNum'] = count($model->getComments());
+        $data['clickNum'] = count($model->getClicks());
         return $data;
     }
 }

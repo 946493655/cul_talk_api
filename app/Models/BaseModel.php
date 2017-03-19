@@ -16,7 +16,7 @@ class BaseModel extends Model
      */
     public function createTime()
     {
-        return $this->created_at ? date("Y年m月d日 H:i", $this->created_at) : '';
+        return $this->created_at ? date("Y年m月d日", $this->created_at) : '';
     }
 
     /**
@@ -24,6 +24,6 @@ class BaseModel extends Model
      */
     public function updateTime()
     {
-        return $this->updated_at ? date("Y年m月d日 H:i", $this->updated_at) : '未更新';
+        return $this->updated_at ? date("Y年m月d日", $this->updated_at) : '未更新';
     }
 }
