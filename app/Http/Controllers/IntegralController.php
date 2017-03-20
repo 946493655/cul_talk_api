@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IntegralModel;
+use App\Models\ParamModel;
 
 class IntegralController extends BaseController
 {
@@ -165,6 +166,9 @@ class IntegralController extends BaseController
             'updated_at'    =>  time(),
         ];
         IntegralModel::where('talkid',$talkid)->update($data);
+        //更新用户积分
+        $this->setParam($uid,$model->number,1);
+        $this->setParam($model->uid,$model->number,2);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -172,6 +176,26 @@ class IntegralController extends BaseController
             ],
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 更新用户参数：genre==1自增，2自减
+     */
+    public function setParam($uid,$number,$genre=1)
+    {
+        $model = ParamModel::where('uid',$uid)->first();
+        if (!$model) {
+            $data = [
+                'uid'   =>  $uid,
+                'created_at'    =>  time(),
+            ];
+            ParamModel::create($data);
+        }
+        if ($genre==1) {
+            ParamModel::where('uid',$uid)->increment('integral',$number);
+        } else {
+            ParamModel::where('uid',$uid)->decrement('integral',$number);
+        }
     }
 
 

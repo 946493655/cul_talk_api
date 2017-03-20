@@ -62,6 +62,36 @@ class CommentController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    public function store()
+    {
+        $uid = $_POST['uid'];
+        $talkid = $_POST['talkid'];
+        $intro = $_POST['intro'];
+        if (!$uid || !$talkid || !$intro) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'uid'   =>  $uid,
+            'talkid'    =>  $talkid,
+            'intro'     =>  $intro,
+            'created_at'    =>  time(),
+        ];
+        CommentModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
 
 
 
@@ -71,6 +101,7 @@ class CommentController extends BaseController
         $data = $this->objToArr($model);
         $data['createTime'] = $model->createTime();
         $data['updateTime'] = $model->updateTime();
+        $data['talkName'] = $model->getTalkName();
         return $data;
     }
 }

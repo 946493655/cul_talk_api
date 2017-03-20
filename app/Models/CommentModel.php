@@ -11,4 +11,13 @@ class CommentModel extends BaseModel
     public $fillable = [
         'id','talkid','intro','uid','created_at','updated_at',
     ];
+
+    /**
+     * 得到话题名称
+     */
+    public function getTalkName()
+    {
+        $talkModel = TalksModel::find($this->talkid);
+        return $talkModel ? $talkModel->name : '';
+    }
 }

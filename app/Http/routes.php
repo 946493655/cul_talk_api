@@ -43,6 +43,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('talk/setread', 'TalkController@setRead');
     //评论路由
     $app->post('comment', 'CommentController@index');
+    $app->post('comment/add', 'CommentController@store');
     //积分交易
     $app->post('integral', 'IntegralController@index');
     $app->post('integral/onebytalkid', 'IntegralController@getOneByTalkid');
