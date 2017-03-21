@@ -161,7 +161,7 @@ CREATE TABLE `talks` (
 
 LOCK TABLES `talks` WRITE;
 /*!40000 ALTER TABLE `talks` DISABLE KEYS */;
-INSERT INTO `talks` VALUES (1,'AE123',2,15,'aeaeae','',1,1,'jiuge',201,10,2,1489729311,0);
+INSERT INTO `talks` VALUES (1,'AE123',2,15,'aeaeae','http://talk.jiugewenhua.com/uploads/images/2017-03-21/58d0c2b232339.png',1,1,'jiuge',259,10,2,1489729311,0);
 /*!40000 ALTER TABLE `talks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ CREATE TABLE `talks_click` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题点赞表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='话题点赞表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,44 @@ CREATE TABLE `talks_click` (
 
 LOCK TABLES `talks_click` WRITE;
 /*!40000 ALTER TABLE `talks_click` DISABLE KEYS */;
+INSERT INTO `talks_click` VALUES (1,1,1,1490080519,0);
 /*!40000 ALTER TABLE `talks_click` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `talks_copy`
+--
+
+DROP TABLE IF EXISTS `talks_copy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `talks_copy` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  `topic_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '话题主题id',
+  `cate` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类别id',
+  `intro` varchar(1000) NOT NULL COMMENT '创意内容',
+  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
+  `award` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '话题发布的积分奖励，1-5随机值',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
+  `uname` varchar(50) NOT NULL COMMENT '用户名称',
+  `read` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
+  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='话题表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `talks_copy`
+--
+
+LOCK TABLES `talks_copy` WRITE;
+/*!40000 ALTER TABLE `talks_copy` DISABLE KEYS */;
+INSERT INTO `talks_copy` VALUES (1,'AE123',2,15,'aeaeae','',1,1,'jiuge',201,10,2,1489729311,0);
+/*!40000 ALTER TABLE `talks_copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -229,4 +266,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-20 16:39:37
+-- Dump completed on 2017-03-21 16:01:46

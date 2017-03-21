@@ -10,7 +10,7 @@ class TalksModel extends BaseModel
      */
     protected $table = 'talks';
     protected $fillable = [
-        'id','name','topic_id','cate','intro','award','uid','uname','read','sort','isshow','created_at','updated_at',
+        'id','name','topic_id','cate','intro','thumb','award','uid','uname','read','sort','isshow','created_at','updated_at',
     ];
     //award发布话题的积分奖励：1-5随机值
 

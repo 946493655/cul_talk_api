@@ -40,7 +40,10 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers'], functio
     $app->post('talk/show', 'TalkController@show');
     $app->post('talk/add', 'TalkController@store');
     $app->post('talk/modify', 'TalkController@update');
-    $app->post('talk/setread', 'TalkController@setRead');
+    $app->post('talk/setthumb', 'TalkController@setThumb');
+    //话题点赞
+    $app->post('talkclick', 'TalkClickController@index');
+    $app->post('talkclick/add', 'TalkClickController@store');
     //评论路由
     $app->post('comment', 'CommentController@index');
     $app->post('comment/add', 'CommentController@store');

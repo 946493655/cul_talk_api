@@ -236,6 +236,42 @@ class TalkController extends BaseController
     }
 
     /**
+     * 设置缩略图
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = TalksModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        TalksModel::where('id',$id)->update(['thumb'=>$thumb]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 获取 talkModel 集合
      */
     public function getTalkModel($model)
